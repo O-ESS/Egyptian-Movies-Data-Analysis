@@ -1,9 +1,13 @@
-import React from 'react'
+
+import { React, useState } from "react";
+import TextField from "@mui/material/TextField";
+
 import { Link } from 'react-router-dom' ;
 import { Avatar, Button } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import HomeIcon from '@mui/icons-material/Home';
+import Search from "@mui/icons-material/Search";
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -52,7 +56,7 @@ function stringAvatar(name) {
 
  const Header = (props) => {
 const  isLogged = props.isLogged ;
-const [anchorEl, setAnchorEl] = React.useState(null);
+const [anchorEl, setAnchorEl] =useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,7 +73,22 @@ if (!isLogged){
        Home
      </Button>
     </div>
-
+    <div className="main">
+      
+      <div className="search">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          
+          label="Search"
+        />
+        <Button endIcon={<Search />}  className="links" onClick={event =>  window.location.href='/'}>
+       
+     </Button>
+      </div>
+      
+    </div>
+ 
       <nav className="navbar">
         <ul>
           <Button endIcon={<LoginIcon />}  className="links" onClick={event =>  window.location.href='/login'}>Login</Button>
@@ -91,7 +110,21 @@ else{
        Home
      </Link>
     </div>
-
+    <div className="main">
+     
+      <div className="search">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          
+          label="Search"
+        />
+        
+      </div>
+      <Button endIcon={<Search />}  className="links" onClick={event =>  window.location.href='/'}>
+      
+     </Button>
+    </div>
     <Tooltip title="Account settings">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
           <Avatar {...stringAvatar(  props.userName  )} />
