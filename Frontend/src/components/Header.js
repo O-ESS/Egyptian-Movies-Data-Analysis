@@ -61,6 +61,16 @@ const [anchorEl, setAnchorEl] =useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [movie, setMovie] = React.useState(true);
+  const clickOnTheIcon = () => {
+      setChecked((prev) => !prev);
+    };
+    const handleSubmit= (event) =>{
+      event.preventDefault();
+      const Movie={movie=movie};
+      props.Changedata(Movie);
+    }
+    
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -77,12 +87,13 @@ if (!isLogged){
       
       <div className="search">
         <TextField
-          id="outlined-basic"
+          id="movie"
           variant="outlined"
           
           label="Search"
+          onChange = {(e) => {setMovie(e.target.value)}}
         />
-        <Button endIcon={<Search />}  className="links" onClick={event =>  window.location.href='/'}>
+        <Button type="submit" endIcon={<Search />}  className="links" onClick={event =>  window.location.href='/'}>
        
      </Button>
       </div>
