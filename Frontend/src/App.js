@@ -5,7 +5,7 @@ import  Header  from './components/Header.js';
 import Login  from './components/Login.js';
 
 import SignUp2 from './components/Signup2'
-
+import MovieCard from './components/MovieCard'
 
 
 function App(props) {
@@ -17,7 +17,7 @@ function App(props) {
    <div className="mt-10" />
      <Switch>
 <Route exact path="/">
-
+    <MovieCard/>
 </Route>
 
 

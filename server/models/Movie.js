@@ -17,8 +17,9 @@ const movieSchema = mongoose.Schema({
     Directors: String,
     Distributor: String,
     Synopsis: String,
-    Leading_actor: String
-   
+    Leading_actor: String,
+    rate:Number,
+    users:[mongoose.Schema.Types.Mixed], //Araay of objects [{UserID520:4.2} , {UserID562056:3.5} , {UserID56050:1.2} ]
 });
 
 module.exports = mongoose.model("Movie", movieSchema);
