@@ -10,6 +10,8 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 
+import { useNavigate } from 'react-router-dom';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,13 +59,18 @@ export default function SearchAppBar() {
 
   const [searchText, setSearchText] = useState("")
   // let history = useHistory()
+  let navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      // history.push(`/search/${searchText}`)
-      // history.go()
+  async function handleSubmit(e) {
+    e.preventDefault();
+    // console.log(searchText)
+    navigate(`/search/${searchText}`);
+    window.location.reload();
+
+    // history.push(`/search/${searchText}`)
+    // history.go()
   }
-  
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -91,13 +98,14 @@ export default function SearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <form onSubmit={handleSubmit}>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                        value={searchText}
-                        onChange={(e) => { setSearchText(e.target.value) }}
-                    />
-                </form>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchText}
+                onChange={(e) => { setSearchText(e.target.value) }}
+
+              />
+            </form>
           </Search>
         </Toolbar>
       </AppBar>

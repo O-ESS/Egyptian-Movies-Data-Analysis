@@ -17,7 +17,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// import MovieCard from "./components/MovieCard"
+import { useSearchParams } from "react-router-dom"
+import { useParams } from 'react-router-dom'
 
 import MovieCard from "./MovieCard"
 
@@ -32,15 +33,27 @@ const token = localStorage.getItem('token')
 
 
 
-export default function AllMovies() {
+export default function AllMovies({ searchFlag }) {
     const [allMovies, setAllMovies] = useState();
+    const { q } = useParams()
+ 
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/`)
-            .then(res => {
-                setAllMovies(res.data)
-            })
-            .catch(err => console.log(err.response.data))
+        if (!searchFlag) {
+            axios.get(`http://localhost:8080/`)
+                .then(res => {
+                    setAllMovies(res.data)
+                })
+                .catch(err => console.log(err.response.data))
+        }
+
+        else {
+            axios.get(`http://localhost:8080/search/${q}`)
+                .then(res => {
+                    setAllMovies(res.data)
+                })
+                .catch(err => console.log(err.response.data))
+        }
 
     }, [])
 

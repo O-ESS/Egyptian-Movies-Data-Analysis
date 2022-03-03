@@ -38,32 +38,20 @@ const Movie = require('./models/Movie')
 
 app.get('/', async (req, res) => {
     try {
-        const result = await Movie.find({}).sort({rate : -1}).limit(9)
+        const result = await Movie.find({}).sort({ rate: -1 }).limit(9)
         res.json(result)
         // res.send("allMovies")
 
-        
+
     } catch (error) {
         res.status(400).json(error)
     }
 })
 
-app.get('/:movieID', async (req, res) => {
-    try {
-        const { movieID } = req.params
-        const result = await Movie.findById(movieID)
-        res.json(result)
-        // res.send("allMovies")
 
-        
-    } catch (error) {
-        res.status(400).json(error)
-    }
-})
-
-app.get("/search?", async (req, res) => {
+app.get("/search/:q", async (req, res) => {
     try {
-        const { q } = req.query
+        const { q } = req.params
         // const x1 = q.trim().replace(/ +/gi, "_")
         // const x2 = q.trim().replace(/ +/gi, "")
         const regex1 = new RegExp(q, "gi")
@@ -83,6 +71,19 @@ app.get("/search?", async (req, res) => {
     }
 })
 
+app.get('/:movieID', async (req, res) => {
+    try {
+        const { movieID } = req.params
+        const result = await Movie.findById(movieID)
+        res.json(result)
+        // res.send("allMovies")
+
+
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
 app.get("/filter?", async (req, res) => {
     try {
         const { Category } = req.query
@@ -96,8 +97,8 @@ app.get("/filter?", async (req, res) => {
         // const regexNum = /0-9/
         const result = await Movie.find({
             $and: [{ Category: regex1 },
-            // { Actors: regex2 },
-        ]
+                // { Actors: regex2 },
+            ]
         })
         res.json(result)
     } catch (error) {
@@ -113,7 +114,7 @@ app.get("/filter?", async (req, res) => {
 //                 $addFields: { "rate": 0 }
 //             }
 //         ])
-       
+
 //         res.json(result)
 //     } catch (error) {
 //         res.json(error)
