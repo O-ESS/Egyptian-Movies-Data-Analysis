@@ -90,9 +90,8 @@ app.get("/filter/:category", async (req, res) => {
         const regex1 = new RegExp(category, "gi")
         const result = await Movie.find({
              category: regex1 }
-
-            
         )
+        console.log(category)
         res.json(result)
     } catch (error) {
         res.json(error)
