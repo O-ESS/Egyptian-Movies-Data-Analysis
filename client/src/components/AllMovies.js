@@ -16,30 +16,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { useSearchParams } from "react-router-dom"
 import { useParams } from 'react-router-dom'
-
 import MovieCard from "./MovieCard"
-
-
-
-
-
-
 
 const token = localStorage.getItem('token')
 
+export default function AllMovies({ searchFlag, filterFlag }) {
 
-
-
-export default function AllMovies({ searchFlag }) {
     const [allMovies, setAllMovies] = useState();
-    const { q } = useParams()
- 
+    const { q , category} = useParams()
 
     useEffect(() => {
-        if (!searchFlag) {
+        if (!searchFlag && !filterFlag) {
+
             axios.get(`http://localhost:8080/`)
                 .then(res => {
                     setAllMovies(res.data)
@@ -47,15 +37,28 @@ export default function AllMovies({ searchFlag }) {
                 .catch(err => console.log(err.response.data))
         }
 
-        else {
-            axios.get(`http://localhost:8080/search/${q}`)
-                .then(res => {
-                    setAllMovies(res.data)
-                })
-                .catch(err => console.log(err.response.data))
-        }
+        else 
+        {
+            if (searchFlag && !filterFlag) {
+                axios.get(`http://localhost:8080/search/${q}`)
+                    .then(res => {
+                        setAllMovies(res.data)
+                    })
+                    .catch(err => console.log(err.response.data))
+            }
+            else 
+            {
+                axios.get(`http://localhost:8080/filter/${category}`)
+                    .then(res => {
+                        setAllMovies(res.data)
+                    })
+                    .catch(err => console.log(err.response.data))
+            }
+        } 
 
-    }, [])
+        
+
+    }, [filterFlag, searchFlag])
 
 
     return (

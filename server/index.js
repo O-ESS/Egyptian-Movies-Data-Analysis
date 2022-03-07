@@ -84,45 +84,21 @@ app.get('/:movieID', async (req, res) => {
     }
 })
 
-app.get("/filter?", async (req, res) => {
+app.get("/filter/:category", async (req, res) => {
     try {
-        const { Category } = req.query
-        // const x1 = q.trim().replace(/ +/gi, "_")
-        // const x2 = q.trim().replace(/ +/gi, "")
-        const regex1 = new RegExp(Category, "gi")
-        // const regex2 = new RegExp(Actors, "gi")
-        // const regex2 = new RegExp(x2, "gi")
-        // const regex = new RegExp(q, "gi")
-        // const regexAny = new RegExp(`[${q}]`, "gi")
-        // const regexNum = /0-9/
+        const { category } = req.params
+        const regex1 = new RegExp(category, "gi")
         const result = await Movie.find({
-            $and: [{ Category: regex1 },
-                // { Actors: regex2 },
-            ]
-        })
+             category: regex1 }
+
+            
+        )
         res.json(result)
     } catch (error) {
         res.json(error)
 
     }
 })
-
-// app.patch("/rate", async (req, res) => {
-//     try {
-//         const result = await Movie.updateMany({},[
-//             {
-//                 $addFields: { "rate": 0 }
-//             }
-//         ])
-
-//         res.json(result)
-//     } catch (error) {
-//         res.json(error)
-
-//     }
-// })
-
-
 
 
 

@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-
+import ResponsiveDrawer from './ResponsiveDrawer';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -63,12 +63,8 @@ export default function SearchAppBar() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log(searchText)
     navigate(`/search/${searchText}`);
     window.location.reload();
-
-    // history.push(`/search/${searchText}`)
-    // history.go()
   }
 
 
@@ -76,7 +72,7 @@ export default function SearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -84,7 +80,8 @@ export default function SearchAppBar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
+          <ResponsiveDrawer/>
           <Typography
             variant="h6"
             noWrap
