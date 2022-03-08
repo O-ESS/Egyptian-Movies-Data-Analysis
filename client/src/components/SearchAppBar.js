@@ -69,7 +69,7 @@ export default function SearchAppBar() {
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box style={{zIndex:100}} sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           {/* <IconButton
@@ -81,12 +81,12 @@ export default function SearchAppBar() {
           >
             <MenuIcon />
           </IconButton> */}
-          <ResponsiveDrawer/>
+         
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ paddingLeft: "10vw" ,flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
             Egyptian Movies
           </Typography>
