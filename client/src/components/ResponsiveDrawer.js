@@ -20,6 +20,7 @@ import { Category } from '@mui/icons-material';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import './styles.css'
 
 const drawerWidth = 100;
 
@@ -56,33 +57,32 @@ function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   const [movieData, setMovieData] = useState();
-  const [category, setCategory] = useState();
   let navigate = useNavigate();
 
   async function handleClick(e) {
     
     e.preventDefault();
-    setCategory(e.target.value);
-    console.log(category);
-    console.log(e.target.value);
-    navigate(`filter/${category}`, { replace: true });
-    window.location.reload();
+    props.setCategory(e.target.value);
+  //  console.log("cat: ",category);
+    //console.log("val: ",e.target.value);
+    navigate(`filter/${e.target.value}`, { replace: true });
+    //window.location.reload();
 
 }
   
-  useEffect(() => {
-      axios.get(`http://localhost:8080/filter/${category}`)
-          .then(res => {
-              setMovieData(res.data)
-              console.log("hi")
-              console.log(movieData)
-          })
-          .catch(err => console.log(err.response.data))
+  // useEffect(() => {
+  //     axios.get(`http://localhost:8080/filter/${category}`)
+  //         .then(res => {
+  //             setMovieData(res.data)
+  //             console.log("hi")
+  //             console.log(movieData)
+  //         })
+  //         .catch(err => console.log(err.response.data))
 
-  }, [])
+  // }, [])
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box  sx={{ display: 'flex' }}>
       <CssBaseline />
       <Box
         component="nav"
@@ -90,7 +90,7 @@ function ResponsiveDrawer(props) {
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        {/* <Drawer
+        <Drawer
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -104,7 +104,7 @@ function ResponsiveDrawer(props) {
           }}
         >
           {drawer}
-        </Drawer> */}
+        </Drawer>
         <Drawer
           variant="permanent"
           sx={{

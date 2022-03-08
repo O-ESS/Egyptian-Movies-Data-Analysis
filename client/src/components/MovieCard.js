@@ -40,9 +40,9 @@ export default function MovieCard({ movieID }) {
     return (
         <>
             {movieData &&
-                <div onClick={console.log(`${movieID}`)}>
+                <div >
                     <Card sx={{ maxWidth: 345 }} onClick={handleClick}>
-                        <CardActionArea  >
+                             <CardActionArea  >
                             <CardMedia
                                 component="img"
                                 alt="film"

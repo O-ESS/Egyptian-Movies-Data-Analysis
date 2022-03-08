@@ -22,10 +22,11 @@ import MovieCard from "./MovieCard"
 
 const token = localStorage.getItem('token')
 
-export default function AllMovies({ searchFlag, filterFlag }) {
+export default function AllMovies({ searchFlag, filterFlag,category }) {
 
     const [allMovies, setAllMovies] = useState();
-    const { q , category} = useParams()
+    // const { q , category} = useParams()
+    const { q } = useParams()
 
     useEffect(() => {
         if (!searchFlag && !filterFlag) {

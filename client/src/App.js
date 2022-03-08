@@ -16,16 +16,18 @@ import AllMovies from "./components/AllMovies"
 import ResponsiveDrawer from './components/ResponsiveDrawer';
 
 function App() {
+  const [category, setCategory] = useState();
   return (
     <div className="">
       <BrowserRouter>
         <SearchAppBar />
+        <ResponsiveDrawer category={category} setCategory={setCategory}/>
         <Routes>
 
           <Route path="/" element={<AllMovies searchFlag={false} filterFlag={false} />} />
           <Route path="/:movieID" element={<MoviePage />} />
           <Route path="/search/:q" element={<AllMovies searchFlag={true} filterFlag={false}/>} />
-          <Route path="/filter/:category" element={<AllMovies filterFlag={true} searchFlag={false} />} />
+          <Route path="/filter/:category" element={<AllMovies category={category} filterFlag={true} searchFlag={false} />} />
 
         </Routes>
         
