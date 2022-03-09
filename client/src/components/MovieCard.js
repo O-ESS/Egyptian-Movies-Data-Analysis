@@ -56,10 +56,10 @@ export default function MovieCard({ movieID }) {
                                 </Typography>
 
                                 <Typography variant="body2" color="text.secondary">
-                                    {movieData.rate}
+                                   التقييم: {movieData.rate}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {movieData.Category}
+                                  التصنيف:  {movieData.Category}
                                 </Typography>
                             </CardContent>
                             {/* <CardActions>
