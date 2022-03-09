@@ -20,8 +20,8 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-        <SearchAppBar />
-        <ResponsiveDrawer category={category} setCategory={setCategory}/>
+        <SearchAppBar category={category} setCategory={setCategory} />
+        {/* <ResponsiveDrawer category={category} setCategory={setCategory}/> */}
         <Routes>
 
           <Route path="/" element={<AllMovies searchFlag={false} filterFlag={false} />} />

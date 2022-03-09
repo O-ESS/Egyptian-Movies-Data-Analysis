@@ -19,26 +19,16 @@ function App(props) {
 <Route exact path="/">
     <MovieCard/>
 </Route>
-
-
-
-
-
 <Route path="/login">
 
   <Login/>
 </Route>
-
 <Route path="/signup">
   <SignUp2/>
 </Route>
 {/* <Route path="/*">
   <Error />
 </Route> */}
-
-
-
-
 </Switch>
 </Router>
 
