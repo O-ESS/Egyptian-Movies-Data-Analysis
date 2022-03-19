@@ -92,6 +92,7 @@ app.get("/filter/:category", async (req, res) => {
         const result = await Movie.find({
              Category: category }
         )
+        console.log(result.length)
         res.json(result)
     } catch (error) {
         res.json(error)

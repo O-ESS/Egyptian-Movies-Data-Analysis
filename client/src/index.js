@@ -4,9 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+console.log(localStorage," index")
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App isLogged={localStorage.getItem('user token') ==null?false: true} userName={localStorage.getItem('username')}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

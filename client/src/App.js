@@ -13,14 +13,17 @@ import MovieCard from "./components/MovieCard"
 import MoviePage from "./components/MoviePage"
 import SearchAppBar from "./components/SearchAppBar"
 import AllMovies from "./components/AllMovies"
-import ResponsiveDrawer from './components/ResponsiveDrawer';
+import Login  from './components/Login.js';
+import SignUp from './components/SignUp';
 
-function App() {
+
+function App(props) {
   const [category, setCategory] = useState();
+  console.log(props.userName," app")
   return (
     <div className="">
       <BrowserRouter>
-        <SearchAppBar category={category} setCategory={setCategory} />
+        <SearchAppBar category={category} setCategory={setCategory}  isLogged={props.isLogged}  userName={props.userName} />
         {/* <ResponsiveDrawer category={category} setCategory={setCategory}/> */}
         <Routes>
 
@@ -28,9 +31,10 @@ function App() {
           <Route path="/:movieID" element={<MoviePage />} />
           <Route path="/search/:q" element={<AllMovies searchFlag={true} filterFlag={false}/>} />
           <Route path="/filter/:category" element={<AllMovies category={category} filterFlag={true} searchFlag={false} />} />
-
+          <Route path="/login"    element = {<Login/>}    />
+          <Route path="/register"    element = {<SignUp/>}    />
         </Routes>
-        
+    
       </BrowserRouter>
 
       {/* <ResponsiveDrawer/> */}
