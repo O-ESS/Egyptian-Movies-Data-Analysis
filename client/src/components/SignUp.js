@@ -8,13 +8,13 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { FlightTakeoffOutlined } from '@material-ui/icons';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 // function Copyright(props) {
 //   return (
@@ -51,21 +51,14 @@ export default function SignUp2() {
       }
       else{
       const newUser = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        userName: username,
+        name: username,
         password: password,
-        gender:"",
-        country:"",
-        telephoneNumber:"",
-        dateOfBirth: "",
-      
+        email: email,
+        rates: []
       };
-      await axios.post('http://localhost:8000/guest/sign-up' , newUser)
+      axios.post('http://localhost:8080/auth/register' , newUser)
       .then((result) => {
-        console.log(result.data.message);
-        if(result.data.message == "Success")
+        if(result.data != null)
           setFinish(true);
       }).catch(err => {
         console.log(err);
@@ -192,7 +185,7 @@ export default function SignUp2() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/auth/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -203,7 +196,7 @@ export default function SignUp2() {
       </Container>
     </ThemeProvider>
     { finish ?
-      <Redirect
+      <Navigate
       to={{
       pathname: "/login",
     }}

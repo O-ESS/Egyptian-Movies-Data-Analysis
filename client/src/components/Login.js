@@ -1,4 +1,3 @@
-import { Details } from '@material-ui/icons';
 import { Box, width } from '@mui/system';
 import React from 'react'
 import { Grid } from '@mui/material';
@@ -10,14 +9,13 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { FlightTakeoffOutlined } from '@material-ui/icons';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import axios from 'axios';
 import { Alert } from '@mui/material';
 import App from '../App';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router';
 import { render } from 'react-dom';
 // import FacebookLogin from './FacebookLogin';
 
@@ -50,10 +48,6 @@ const theme = createTheme();
   const [error , setError] = React.useState(false);
   const [finish, setFinish] = React.useState(false);
 
-const adminUser = {
-  email:"hello@me" ,
-  password:"123" 
-};
 
 const handleSubmit = async (event) => {
   event.preventDefault();
@@ -61,42 +55,41 @@ const handleSubmit = async (event) => {
     setError(true);}
   else{
     const user = {
-      userName:   username ,
+      username:   username ,
       password:   password 
     }
-    await axios.post('http://localhost:8000/user/login' , user)
+    await axios.post('http://localhost:8080/auth/login' , user)
     .then(res => {
-      console.log(res);
-      if(res.data.message == "Success"){
-        localStorage.setItem('username', user.userName);
+      console.log(res.data);
+      if(res.data != null){
+        localStorage.setItem('username', user.username);
         localStorage.setItem('user token', res.data.token);
         localStorage.setItem('type', res.data.type);
         setLogged(true);
         setUsername(user.userName);
         setFinish(true);
         
-        
         //setMessage( {isVisible: true , message: res.data+ ""} );
       }
         
     }).catch(err => {
-      alert("Connection Error with the server");
+      console.log(err)
+      alert("There is no user with this Username and passowrd");
   });
   }
-  //console.log(message);
+  console.log(message);
   if (message.message.valueOf() == "success".valueOf()  ){
     setMessage( {isVisible: true , message: "success"} );
     setLogged(true);
     setFinish(true);
-    //console.log(5);
+    console.log(username," login")
     return(
       <>
       <App  isLogged={true} userName={ username }/>
-      <Link href="/login" variant="body2">
+      <Link href="/auth/login" variant="body2">
                   Go Back To Home Page
       </Link>
 </>
-
     )
     
   }
@@ -159,7 +152,7 @@ else {
             </Grid>
             <br />
             {
-            message.isVisible && <Alert severity="warning"> {message.message} </Alert>
+            message.isVisible && <Alert variant="filled" severity="warning"> {message.message} </Alert>
           }
             <Button
               type="submit"
@@ -172,7 +165,7 @@ else {
             {/* <FacebookLogin/> */}
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/register" variant="body2">
                   Don't Have an account? Sign Up !!
                 </Link>
               </Grid>
@@ -183,7 +176,7 @@ else {
       </Container>
     </ThemeProvider>
     { finish ?
-      <Redirect
+      <Navigate
             to={{
             pathname: "/",
             state: { isLogged  : logged, username : username }

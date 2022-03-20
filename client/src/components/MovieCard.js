@@ -17,8 +17,8 @@ export default function MovieCard({ movieID }) {
     const [movieData, setMovieData] = useState();
     let navigate = useNavigate();
 
-    async function handleClick() {
-        // e.preventDefault();
+    async function handleClick(e) {
+        e.preventDefault();
         // console.log(searchText)
         navigate(`/${movieID}`, { replace: true });
         window.location.reload();
@@ -56,7 +56,7 @@ export default function MovieCard({ movieID }) {
                                 </Typography>
 
                                 <Typography variant="body2" color="text.secondary">
-                                   التقييم: {movieData.rate}
+                                   التقييم: {Number((movieData.rate).toFixed(2))} 
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                   التصنيف:  {movieData.Category}

@@ -53,7 +53,7 @@ export default function AllMovies({ searchFlag, filterFlag,category }) {
                     .catch(err => console.log(err.response.data))
             }
             else 
-            {
+            { 
                 axios.get(`http://localhost:8080/filter/${category}`)
                     .then(res => {
                         setAllMovies(res.data)

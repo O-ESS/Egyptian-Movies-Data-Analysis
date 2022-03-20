@@ -16,6 +16,12 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import LoginIcon from '@mui/icons-material/Login';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import Logout from '@mui/icons-material/Logout';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import { Alert } from '@mui/material';
 
 const drawerWidth = 100;
 
@@ -75,6 +81,17 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }));
 
+const IconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
@@ -93,6 +110,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar(props) {
+  const  isLogged = props.isLogged ;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -159,7 +177,11 @@ export default function SearchAppBar(props) {
     
     e.preventDefault();
     props.setCategory(e.target.value);
+
     navigate(`filter/${e.target.value}`, { replace: true });
+
+
+  
 
 
   }
@@ -169,8 +191,8 @@ export default function SearchAppBar(props) {
     navigate(`/search/${searchText}`);
     window.location.reload();
   }
-
-
+console.log(isLogged, props.userName)
+  if (!isLogged){
   return (
     <Box style={{zIndex:100}} sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -194,6 +216,15 @@ export default function SearchAppBar(props) {
           >
             Egyptian Movies
           </Typography>
+       
+      <nav className="navbar">
+        <ul>
+          <Button endIcon={ <LoginIcon /> } color="inherit"  className="links" onClick={event =>  window.location.href='/login'}>Login</Button>
+          <Button endIcon={<LockOpenIcon />} color="inherit" className="links" onClick={event =>  window.location.href='/register'}>SignUP</Button>
+          {//<Button endIcon={<SupervisorAccountIcon />} className="links" onClick={event =>  window.location.href='/admin'}>I'm an ADMIN</Button>
+          }
+        </ul>
+      </nav>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -232,4 +263,88 @@ export default function SearchAppBar(props) {
       </Drawer>
     </Box>
   );
+      }
+      else{
+        return(
+        <Box style={{zIndex:100}} sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+         
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            Egyptian Movies
+          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            Hello, {props.userName}
+          </Typography>
+          <MenuItem onClick={event =>  {
+          localStorage.removeItem("username");
+          localStorage.removeItem("user token");
+          localStorage.removeItem("type");
+          window.location.href='/'
+          }}>
+            
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <form onSubmit={handleSubmit}>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchText}
+                onChange={(e) => { setSearchText(e.target.value) }}
+
+              />
+            </form>
+          </Search>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        {drawer}
+      </Drawer>
+    </Box>);
+      }
+
 }
