@@ -20,6 +20,11 @@ import { useSearchParams } from "react-router-dom"
 import { useParams } from 'react-router-dom'
 import MovieCard from "./MovieCard"
 
+// import * as React from 'react';
+import Pagination from '@mui/material/Pagination';
+
+
+
 const token = localStorage.getItem('token')
 
 export default function AllMovies({ searchFlag, filterFlag,category }) {
@@ -62,21 +67,40 @@ export default function AllMovies({ searchFlag, filterFlag,category }) {
     }, [filterFlag, searchFlag])
 
 
+    async function handleChange() {
+    
+        // e.preventDefault();
+        // props.setCategory(e.target.value);
+        // navigate(`filter/${e.target.value}`, { replace: true });
+    
+    
+      }
+
     return (
-        <Container sx={{ py: 4 }} maxWidth="lg">
 
-            {allMovies && <Grid container direction="row" justifyContent="center" alignItems="center"
-                spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
-            >
+            <Container sx={{ py: 4 }} maxWidth="lg">
 
-                {allMovies.map(movieID => {
-                    return <Grid item xs={4} key={movieID._id}>
-                        <MovieCard key={movieID._id} movieID={movieID._id} />
-                    </Grid>
-                })}
+                {allMovies && <Grid container direction="row" justifyContent="center" alignItems="center"
+                    spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}
+                >
+
+                    {allMovies.map(movieID => {
+                        return <Grid item xs={4} key={movieID._id}>
+                            <MovieCard key={movieID._id} movieID={movieID._id} />
+                        </Grid>
+                    })}
 
 
-            </Grid>}
-        </Container>
+                </Grid>}
+            </Container>
+
     );
 }
+
+// export default function BasicPagination() {
+//   return (
+    // <Stack spacing={2}>
+    //   <Pagination count={10} />
+    // </Stack>
+//   );
+// }

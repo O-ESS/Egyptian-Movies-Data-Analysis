@@ -108,10 +108,36 @@ export default function SearchAppBar(props) {
 
   const buttons = [
     <Button key="one" value="دراما" >دراما</Button>,
-    <Button key="two" value="كوميدي" >كوميدي</Button>,
-    <Button key="three" value="اكشن" >اكشن</Button>,
-    <Button key="four" value="رعب" >رعب</Button>,
-    <Button key="five" value="رومانسي" >رومانسي</Button>
+    <Button key="seven" value="دراما" > غموض</Button>,
+    <Button key="eight" value=" دراما " >تشويق و اثارة</Button>,
+    <Button key="nine" value="دراما" >حركة</Button>,
+    <Button key="ten" value="دراما" >مغامرات</Button>,
+    <Button key="eleven" value="دراما" >جريمة</Button>,
+
+    <Button key="three" value="كوميدي" >كوميدي</Button>,
+    <Button key="twelve" value="كوميدي" >عائلي</Button>,
+    
+    <Button key="six" value="رومانسي" >رومانسي</Button>,
+    
+    <Button key="thirteen" value="استعراضي" >استعراضي</Button>,
+
+    <Button key="fourteen" value="تاريخي" >تاريخي</Button>,
+
+    <Button key="fifteen" value="سيرة ذاتية" >سيرة ذاتية</Button>,
+
+    <Button key="sixteen" value="حرب" >حرب</Button>,
+
+    <Button key="seventeen" value="وثائقي" >وثائقي</Button>,
+
+    <Button key="eighteen" value="قصير" >قصير</Button>,
+
+    <Button key="nineteen" value="خيال" >خيال</Button>,
+
+    <Button key="twenty" value="خيال" >خيال علمي</Button>,
+
+    <Button key="twenty one" value="رياضي" >رياضي</Button>,
+
+    <Button key="two" value="رعب" >رعب</Button>
   ];
   
   
@@ -133,10 +159,8 @@ export default function SearchAppBar(props) {
     
     e.preventDefault();
     props.setCategory(e.target.value);
-  //  console.log("cat: ",category);
-   // console.log("val: ",e.target.value);
     navigate(`filter/${e.target.value}`, { replace: true });
-    //window.location.reload();
+
 
   }
 
