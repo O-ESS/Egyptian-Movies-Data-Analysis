@@ -6,9 +6,9 @@ const jwt = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
     const token = req.header("token")
-    console.log(req)
-    console.log(res)
-    console.log(token)
+    console.log(req.body)
+    console.log(req.headers)
+    console.log("token "+token)
     if (!token)
         return res.status(401).send("please log in first");
     
@@ -60,20 +60,23 @@ router.post('/register', async (req, res) => {
 router.post('/rate',auth, async (req, res) => {
     try {
         const userID = req.user.id
-        const {movieID , rate} = req.body 
+        let {movieID , rate} = req.body
+        rate =rate/20 
         const foundUser = await User.findById(userID)
         const foundMovie = await Movie.findById(movieID)
         const sum = Number(foundMovie.users.length)
         const oldRate = Number(foundMovie.rate)
         const newRate = (oldRate*sum + Number(rate)) / (sum+1)
-        console.log(newRate)
+        console.log("rate "+newRate)
         const movieObject = {movieID , rate} //will ba added into rates array in user object
         const userObject = {userID , rate} //will be added into users array in movie object then avg rate will be calculated
 
-        var __FOUND = foundUser.rates.find(function(movie, index) {
+        const __FOUND = foundUser.rates.find(function(movie, index) {
             if(movie.movieID == movieID)
-                res.json("you rated this movie before , to re-rate it delete the old rate then re-rate again");
+              return true;
         });
+        if(__FOUND)
+           return res.json("you rated this movie before , to re-rate it delete the old rate then re-rate again");
        console.log(newRate)
         const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { rates: movieObject } },
             { new: true, runValidators: true, useFindAndModify: true })
@@ -82,9 +85,10 @@ router.post('/rate',auth, async (req, res) => {
             { new: true, runValidators: true, useFindAndModify: true })
 
 
-        res.json({updatedUser ,updatedMovie });
+        return res.json({updatedUser ,updatedMovie });
 
     } catch (err) {
+        console.log(err)
         res.json(err);
         console.log("🚀 ~ file: user.js ~ line 79 ~ router.post ~ err", err)
     }

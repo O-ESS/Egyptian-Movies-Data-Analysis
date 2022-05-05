@@ -23,12 +23,14 @@ export default function MoviePage() {
 
     function StarRating() {
         const [rating, setRating] = useState(0) // initial rating value
+        const headers = {token:localStorage.getItem('user token')}
       
         // Catch Rating value
         const handleRating = (rate) => {
           console.log(rate)
           setRating(rate)
-          axios.post('http://localhost:8080/auth/rate' , movieID, rating, localStorage.getItem('user token') )
+          console.log("token "+localStorage.getItem('user token'))
+          axios.post('http://localhost:8080/auth/rate' ,{  movieID,rate},{headers} )
           .then((result) => {
             console.log(result.data.message);
             setMovieData(result.data.updatedMovie)
