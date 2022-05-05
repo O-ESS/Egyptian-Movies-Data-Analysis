@@ -15,7 +15,7 @@ import SearchAppBar from "./components/SearchAppBar"
 import AllMovies from "./components/AllMovies"
 import Login  from './components/Login.js';
 import SignUp from './components/SignUp';
-
+import StatsPage from './components/StatsPage';
 
 function App(props) {
   const [category, setCategory] = useState();
@@ -33,10 +33,11 @@ function App(props) {
           <Route path="/filter/:category" element={<AllMovies category={category} filterFlag={true} searchFlag={false} />} />
           <Route path="/login"    element = {<Login/>}    />
           <Route path="/register"    element = {<SignUp/>}    />
+          <Route path="/MovieStats"    element = {<StatsPage/>}    />
         </Routes>
     
       </BrowserRouter>
-
+      
       {/* <ResponsiveDrawer/> */}
 
 

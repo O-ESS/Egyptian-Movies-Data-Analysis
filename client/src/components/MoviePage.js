@@ -43,7 +43,7 @@ export default function MoviePage() {
           <div className='App'>
             <Rating onClick={handleRating} ratingValue={rating} /* Available Props */ />
           </div>
-        )
+        );
       }
 
 

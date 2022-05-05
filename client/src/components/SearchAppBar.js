@@ -219,6 +219,7 @@ console.log(isLogged, props.userName)
        
       <nav className="navbar">
         <ul>
+        <Button color="inherit" onClick={event =>  window.location.href='/MovieStats'}>Movies statistics</Button>
           <Button endIcon={ <LoginIcon /> } color="inherit"  className="links" onClick={event =>  window.location.href='/login'}>Login</Button>
           <Button endIcon={<LockOpenIcon />} color="inherit" className="links" onClick={event =>  window.location.href='/register'}>SignUP</Button>
           {//<Button endIcon={<SupervisorAccountIcon />} className="links" onClick={event =>  window.location.href='/admin'}>I'm an ADMIN</Button>
@@ -279,7 +280,7 @@ console.log(isLogged, props.userName)
           >
             <MenuIcon />
           </IconButton>
-         
+          
           <Typography
             variant="h6"
             noWrap
@@ -288,6 +289,7 @@ console.log(isLogged, props.userName)
           >
             Egyptian Movies
           </Typography>
+          
           <Typography
             variant="h6"
             noWrap
@@ -296,13 +298,14 @@ console.log(isLogged, props.userName)
           >
             Hello, {props.userName}
           </Typography>
+          <Button color="inherit" onClick={event =>  window.location.href='/MovieStats'}>Movies statistics</Button>
           <MenuItem onClick={event =>  {
           localStorage.removeItem("username");
           localStorage.removeItem("user token");
           localStorage.removeItem("type");
           window.location.href='/'
           }}>
-            
+           
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -324,6 +327,7 @@ console.log(isLogged, props.userName)
           </Search>
         </Toolbar>
       </AppBar>
+      
       <Drawer
         sx={{
           width: drawerWidth,
