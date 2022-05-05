@@ -6,11 +6,15 @@ const jwt = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
     const token = req.header("token")
+    console.log(req)
+    console.log(res)
+    console.log(token)
     if (!token)
         return res.status(401).send("please log in first");
-
+    
     try {
         const verified = jwt.verify(token, process.env.tokenSecret)
+        console.log(verified)
         // console.log("🚀 ~ file: user.js ~ line 13 ~ auth ~ verified", verified)
         req.user = verified
         next();
@@ -33,6 +37,7 @@ router.post('/login', async (req, res) => {
         // if (!isMatched) return res.status(400).send("Incorrect Password");
 
         req.header.token = jwt.sign({ id: foundUser._id}, process.env.tokenSecret);
+        console.log("hi"+ req.header.token)        
         res.json({
             user: foundUser,
             token: req.header.token
@@ -61,7 +66,7 @@ router.post('/rate',auth, async (req, res) => {
         const sum = Number(foundMovie.users.length)
         const oldRate = Number(foundMovie.rate)
         const newRate = (oldRate*sum + Number(rate)) / (sum+1)
-
+        console.log(newRate)
         const movieObject = {movieID , rate} //will ba added into rates array in user object
         const userObject = {userID , rate} //will be added into users array in movie object then avg rate will be calculated
 
