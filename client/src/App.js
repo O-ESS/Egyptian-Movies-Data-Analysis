@@ -13,31 +13,31 @@ import MovieCard from "./components/MovieCard"
 import MoviePage from "./components/MoviePage"
 import SearchAppBar from "./components/SearchAppBar"
 import AllMovies from "./components/AllMovies"
-import Login  from './components/Login.js';
+import Login from './components/Login.js';
 import SignUp from './components/SignUp';
 import StatsPage from './components/StatsPage';
 
 function App(props) {
   const [category, setCategory] = useState();
-  console.log(props.userName," app")
+  console.log(props.userName, " app")
   return (
     <div className="">
       <BrowserRouter>
-        <SearchAppBar category={category} setCategory={setCategory}  isLogged={props.isLogged}  userName={props.userName} />
+        <SearchAppBar category={category} setCategory={setCategory} isLogged={props.isLogged} userName={props.userName} />
         {/* <ResponsiveDrawer category={category} setCategory={setCategory}/> */}
         <Routes>
 
           <Route path="/" element={<AllMovies searchFlag={false} filterFlag={false} />} />
           <Route path="/:movieID" element={<MoviePage />} />
-          <Route path="/search/:q" element={<AllMovies searchFlag={true} filterFlag={false}/>} />
-          <Route path="/filter/:category" element={<AllMovies category={category} filterFlag={true} searchFlag={false} />} />
-          <Route path="/login"    element = {<Login/>}    />
-          <Route path="/register"    element = {<SignUp/>}    />
-          <Route path="/MovieStats"    element = {<StatsPage/>}    />
+          <Route path="/search/:q" element={<AllMovies searchFlag={true} filterFlag={false} />} />
+          <Route path="/filter/:category" element={<AllMovies filterFlag={true} searchFlag={false} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<SignUp />} />
+          <Route path="/MovieStats" element={<StatsPage />} />
         </Routes>
-    
+
       </BrowserRouter>
-      
+
       {/* <ResponsiveDrawer/> */}
 
 

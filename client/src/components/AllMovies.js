@@ -27,11 +27,11 @@ import Pagination from '@mui/material/Pagination';
 
 const token = localStorage.getItem('token')
 
-export default function AllMovies({ searchFlag, filterFlag,category }) {
+export default function AllMovies({ searchFlag, filterFlag }) {
 
     const [allMovies, setAllMovies] = useState();
-    // const { q , category} = useParams()
-    const { q } = useParams()
+    const { q , category} = useParams()
+    // const { q } = useParams()
 
     useEffect(() => {
         if (!searchFlag && !filterFlag) {
