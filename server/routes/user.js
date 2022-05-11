@@ -64,31 +64,38 @@ router.post('/rate', auth, async (req, res) => {
         rate = rate / 20
         const foundUser = await User.findById(userID)
         const foundMovie = await Movie.findById(movieID)
+        let found = false;
 
         foundMovie.users.forEach((movie) => {
-            if (movie.userID == userID)
-                // console.log("found ")
-                return res.status(400).send("you rated this movie before , to re-rate it delete the old rate then re-rate again")
+            if (movie.userID == userID) {
+                found = true
+                return res.status(400).json("you rated this movie before , to re-rate it delete the old rate then re-rate again")
+            }
 
         })
 
-        const sum = Number(foundMovie.users.length)
-        const oldRate = Number(foundMovie.rate)
-        const newRate = (oldRate * sum + Number(rate)) / (sum + 1)
-        // console.log("rate "+newRate)
-        const movieObject = { movieID, rate } //will ba added into rates array in user object
-        const userObject = { userID, rate } //will be added into users array in movie object then avg rate will be calculated
+        console.log("🚀 ~ file: user.js ~ line 68 ~ router.post ~ found", found)
+        
+
+        if (!found) {
+            const sum = Number(foundMovie.users.length)
+            const oldRate = Number(foundMovie.rate)
+            const newRate = (oldRate * sum + Number(rate)) / (sum + 1)
+            // console.log("rate "+newRate)
+            const movieObject = { movieID, rate } //will ba added into rates array in user object
+            const userObject = { userID, rate } //will be added into users array in movie object then avg rate will be calculated
 
 
-        //    console.log(newRate)
-        const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { rates: movieObject } },
-            { new: true, runValidators: true, useFindAndModify: true })
+            //    console.log(newRate)
+            const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { rates: movieObject } },
+                { new: true, runValidators: true, useFindAndModify: true })
 
-        const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject }, rate: newRate },
-            { new: true, runValidators: true, useFindAndModify: true })
+            const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject }, rate: newRate },
+                { new: true, runValidators: true, useFindAndModify: true })
 
 
-        res.json({ updatedUser, updatedMovie });
+            res.json({ updatedUser, updatedMovie });
+        }
 
     } catch (err) {
         console.log("🚀 ~ file: user.js ~ line 79 ~ router.post ~ err", err)
