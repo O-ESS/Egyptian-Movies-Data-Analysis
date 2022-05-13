@@ -57,6 +57,25 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.get('/foundRate', auth, async (req, res) => {
+    try {
+        const userID = req.user.id
+        let found = false;
+        if (token) {
+            foundMovie.users.forEach((movie) => {
+                if (movie.userID == userID) {
+                    found = true
+
+                }
+            })
+        }
+        console.log("🚀 ~ file: index.js ~ line 87 ~ foundMovie.users.forEach ~ found", found)
+        res.json(found)
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 router.post('/rate', auth, async (req, res) => {
     try {
         const userID = req.user.id
@@ -69,13 +88,12 @@ router.post('/rate', auth, async (req, res) => {
         foundMovie.users.forEach((movie) => {
             if (movie.userID == userID) {
                 found = true
-                return res.status(400).json("you rated this movie before , to re-rate it delete the old rate then re-rate again")
-            }
 
+            }
         })
 
         console.log("🚀 ~ file: user.js ~ line 68 ~ router.post ~ found", found)
-        
+
 
         if (!found) {
             const sum = Number(foundMovie.users.length)
@@ -94,7 +112,43 @@ router.post('/rate', auth, async (req, res) => {
                 { new: true, runValidators: true, useFindAndModify: true })
 
 
-            res.json({ updatedUser, updatedMovie });
+            res.json({ updatedUser, updatedMovie, found });
+        }
+
+        else {
+            const sum = Number(foundMovie.users.length)
+            const oldRate = Number(foundMovie.rate)
+            const newRate = (sum + Number(rate) - oldRate) / sum
+
+            const updatedUser = await User.findOneAndUpdate(
+                {
+                    _id: userID,
+                    rates: { $elemMatch: { movieID: movieID } }
+                },
+
+                { $set: { "rates.$.rate": rate } },
+
+                { new: true, runValidators: true, useFindAndModify: true })
+
+
+
+            const updatedMovie = await Movie.findOneAndUpdate(
+                {
+                    _id: movieID,
+                    rates: { $elemMatch: { userID: userID } }
+                },
+
+
+                {
+                    $set: { "rates.$.rate": rate },
+                    rate: newRate
+                },
+
+                { new: true, runValidators: true, useFindAndModify: true })
+
+
+            res.json({ updatedUser, updatedMovie, found });
+            //return res.status(400).json("you rated this movie before , to re-rate it delete the old rate then re-rate again")
         }
 
     } catch (err) {

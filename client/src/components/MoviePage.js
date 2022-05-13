@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-
+import StarRateIcon from '@mui/icons-material/StarRate';
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom'
 import axios from "axios";
@@ -14,41 +14,55 @@ import { textAlign } from '@mui/system';
 import { Rating } from 'react-simple-star-rating'
 import { Alert } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
 
 
 
 export default function MoviePage() {
 
   const [movieData, setMovieData] = useState();
+  const [openRate, setOpenRate] = useState(false);
+  const [yourRating, setYourRating] = useState(false);
+  const [rating, setRating] = useState(0) // initial rating value
   const { movieID } = useParams()
   const token = localStorage.getItem('user token')
+  const auth = {
+    headers: { token }
+  }
 
+  const handleRating = (rate) => {
 
-  function StarRating() {
-    const [rating, setRating] = useState(0) // initial rating value
-    const headers = { token: localStorage.getItem('user token') }
+    setRating(rate)
+    // console.log("token " + localStorage.getItem('user token'))
+    axios.post('http://localhost:8080/auth/rate', { movieID, rate }, auth)
+      .then((result) => {
+        setMovieData(result.data.updatedMovie)
+      }).catch(err => {
+        console.log(err)
+        alert("you rated this movie before , to re-rate it delete the old rate then re-rate again");
+      });
 
-    if (!token)
-      alert("you have to be logged in to rate movies");
+  }
 
+  const handleAlert = () => {
+    if (token)
+      setOpenRate(true)
 
-
-    // Catch Rating value
-    const handleRating = (rate) => {
-      // console.log(rate)
-      setRating(rate)
-      // console.log("token " + localStorage.getItem('user token'))
-      axios.post('http://localhost:8080/auth/rate', { movieID, rate }, { headers })
-        .then((result) => {
-          console.log(result.data.message)
-          setMovieData(result.data.updatedMovie)
-        }).catch(err => {
-          console.log("🚀 ~ file: MoviePage.js ~ line 38 ~ .then ~ err", err)
-          alert("you rated this movie before , to re-rate it delete the old rate then re-rate again");
-        });
-      // other logic
+    else {
+      let text = "You must be logged in to rate movies";
+      if (window.confirm(text)) {
+        window.location.href = "login"
+      }
     }
 
+  }
+
+  function StarRating() {
     return (
       <div className='App'>
         <Rating onClick={handleRating} ratingValue={rating} /* Available Props */ />
@@ -56,14 +70,35 @@ export default function MoviePage() {
     );
   }
 
+  // let yourRating = true
+  function yourRatingText() {
+    // console.log(yourRating)
+
+    if (yourRating == true) return "Your Rating : 4/5"
+    else return ""
+  }
+
 
   useEffect(() => {
     axios.get(`http://localhost:8080/${movieID}`)
       .then(res => {
         setMovieData(res.data)
+        // setYourRating(res.data.found)
+        // console.log(yourRating)
 
       })
       .catch(err => console.log(err.response.data))
+
+
+    axios.get(`http://localhost:8080/auth/foundRate`, auth)
+      .then(res => {
+        setYourRating(res.data)
+        console.log(yourRating)
+
+      })
+      .catch(err => console.log(err.response.data))
+
+
 
   }, [])
 
@@ -153,10 +188,30 @@ export default function MoviePage() {
                 </CardContent>
 
                 <CardActions
-                // style={{ display: "flex", justifyContent: "center" }}
+                  style={{
+                    display: "block",
+                    // justifyContent: "center",
+                    // textAlign: "center"
+                  }}
                 >
-                  <StarRating />
-                  <Button size="large"> Delete old rating </Button>
+
+
+                  <Typography variant="subtitle2" color="text.secondary"
+                    style={{
+                      margin: "auto",
+                      fontWeight: "bolder"
+                    }}>
+                    {yourRatingText()}
+                  </Typography>
+                  <Button size="large"
+                    variant="contained"
+                    startIcon={<StarRateIcon />}
+                    onClick={handleAlert}
+                  >
+                    Rate
+                  </Button>
+
+
                 </CardActions>
 
               </Grid>
@@ -165,6 +220,53 @@ export default function MoviePage() {
           </Card>
         </Container>
 
+      }
+
+      {
+        openRate &&
+        <>
+
+          <Container>
+
+            <Dialog
+              open={openRate}
+              onClose={() => setOpenRate(false)}
+              fullWidth={true}
+              // maxWidth={maxWidth}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+
+            >
+              <DialogTitle id="alert-dialog-title">Rate</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  <Typography component="div" variant="h5"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                    }}>
+                    {movieData.Name}
+                  </Typography>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  marginBottom: 8,
+                  display: "block"
+                }}>
+                <StarRating />
+                <Button size="large" variant="contained" style={{ marginTop: 8 }} > Remove Rating </Button>
+              </DialogActions>
+
+            </Dialog>
+          </Container>
+
+        </>
       }
     </>
   );

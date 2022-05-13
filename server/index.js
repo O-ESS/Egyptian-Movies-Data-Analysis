@@ -31,6 +31,8 @@ app.use("/auth", userRoute)
 // app.use("/users", userRoute)
 
 const Movie = require('./models/Movie')
+const jwt = require("jsonwebtoken");
+
 
 // app.get('/', async (req, res) => {
 //     res.send("we are on home")
@@ -74,11 +76,8 @@ app.get("/search/:q", async (req, res) => {
 app.get('/:movieID', async (req, res) => {
     try {
         const { movieID } = req.params
-        const result = await Movie.findById(movieID)
-        res.json(result)
-        // res.send("allMovies")
-
-
+        const foundMovie = await Movie.findById(movieID)
+        res.json(foundMovie)
     } catch (error) {
         res.status(400).json(error)
     }
@@ -88,9 +87,10 @@ app.get("/filter/:category", async (req, res) => {
     try {
         const { category } = req.params
         const regex1 = new RegExp(category, "gi")
-        const rr= category.split("").reverse().join("");
+        const rr = category.split("").reverse().join("");
         const result = await Movie.find({
-             Category: category }
+            Category: category
+        }
         )
         console.log(result.length)
         res.json(result)

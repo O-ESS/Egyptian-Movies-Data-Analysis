@@ -16,6 +16,8 @@ export default function MovieCard({ movieID }) {
 
     const [movieData, setMovieData] = useState();
     let navigate = useNavigate();
+    const token = localStorage.getItem('user token')
+
 
     async function handleClick(e) {
         e.preventDefault();
@@ -42,7 +44,7 @@ export default function MovieCard({ movieID }) {
             {movieData &&
                 <div >
                     <Card sx={{ maxWidth: 345 }} onClick={handleClick}>
-                             <CardActionArea  >
+                        <CardActionArea  >
                             <CardMedia
                                 component="img"
                                 alt="film"
@@ -56,10 +58,10 @@ export default function MovieCard({ movieID }) {
                                 </Typography>
 
                                 <Typography variant="body2" color="text.secondary">
-                                   التقييم: {Number((movieData.rate).toFixed(2))} 
+                                    التقييم: {Number((movieData.rate).toFixed(2))}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  التصنيف:  {movieData.Category}
+                                    التصنيف:  {movieData.Category}
                                 </Typography>
                             </CardContent>
                             {/* <CardActions>
