@@ -70,23 +70,23 @@ router.get('/foundRate/:movieID/:userID', auth, async (req, res) => {
         const foundMovie = await Movie.findById(movieID)
 
         if (userID) {
-            console.log("73")
+            // console.log("73")
             foundUser.rates.forEach((element) => {
                 if (element.movieID == movieID) {
                     // found = true
-                    console.log("here")
+                    // console.log("here")
                     rate = element.rate
                 }
             })
         }
 
-        console.log("🚀 ~ file: user.js ~ line 83 ~ router.get ~ rate", rate)
+        // console.log("🚀 ~ file: user.js ~ line 83 ~ router.get ~ rate", rate)
         return res.json(rate)
     } catch (err) {
         res.json(err);
     }
 });
-router.get('/hh', auth, async (req, res) => {
+router.get('/test', auth, async (req, res) => {
     try {
         console.log("ha,amas")
         return res.json("rate")
@@ -103,35 +103,35 @@ router.post('/rate', auth, async (req, res) => {
         const foundUser = await User.findById(userID)
         const foundMovie = await Movie.findById(movieID)
         let found = false;
-        let allRates = 0
+        let userOldRate = 0
         const sum = Number(foundMovie.users.length)
+        const avgOldRate = Number(foundMovie.rate)
 
         foundMovie.users.forEach((movie) => {
-            allRates += Number(movie.rate)
             if (movie.userID == userID) {
                 found = true
+                userOldRate = Number(movie.rate)
             }
         })
 
-        console.log("🚀 ~ file: user.js ~ line 106 ~ router.post ~ found", found)
+        // console.log("🚀 ~ file: user.js ~ line 106 ~ router.post ~ found", found)
 
 
 
         if (!found) {
 
-            const oldRate = Number(foundMovie.rate)
-            const newRate = (oldRate * sum + Number(rate)) / (sum + 1)
+            const avgNewRate = (avgOldRate * sum + Number(rate)) / (sum + 1)
 
-            // console.log("rate "+newRate)
+            // console.log("rate "+avgNewRate)
             const movieObject = { movieID, rate } //will ba added into rates array in user object
             const userObject = { userID, rate } //will be added into users array in movie object then avg rate will be calculated
 
 
-            //    console.log(newRate)
+            //    console.log(avgNewRate)
             const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { rates: movieObject } },
                 { new: true, runValidators: true, useFindAndModify: true })
 
-            const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject }, rate: newRate },
+            const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject }, rate: avgNewRate },
                 { new: true, runValidators: true, useFindAndModify: true })
 
 
@@ -140,12 +140,12 @@ router.post('/rate', auth, async (req, res) => {
 
         else {
 
-            const avgRate = allRates / sum
+            const avgNewRate = (avgOldRate * sum + Number(rate) - userOldRate) / sum
 
             const updatedUser = await User.findOneAndUpdate(
                 {
                     _id: userID,
-                    rates: { $elemMatch: { movieID: movieID } }
+                    "rates.movieID": movieID
                 },
 
                 { $set: { "rates.$.rate": rate } },
@@ -157,13 +157,13 @@ router.post('/rate', auth, async (req, res) => {
             const updatedMovie = await Movie.findOneAndUpdate(
                 {
                     _id: movieID,
-                    rates: { $elemMatch: { userID: userID } }
+                    "users.userID": userID
                 },
 
 
                 {
-                    $set: { "rates.$.rate": rate },
-                    rate: avgRate
+                    $set: { "users.$.rate": rate },
+                    rate: avgNewRate
                 },
 
                 { new: true, runValidators: true, useFindAndModify: true })
@@ -190,7 +190,7 @@ router.post('/rate', auth, async (req, res) => {
 //         const foundMovie = await Movie.findById(movieID)
 //         const sum = Number(foundMovie.users.length)
 //         const oldRate = Number(foundMovie.rate)
-//         const newRate = (oldRate*sum + Number(rate)) / (sum+1)
+//         const avgNewRate = (oldRate*sum + Number(rate)) / (sum+1)
 
 //         const movieObject = {movieID , rate} //will ba added into rates array in user object
 //         const userObject = {userID , rate} //will be added into users array in movie object then avg rate will be calculated
@@ -204,7 +204,7 @@ router.post('/rate', auth, async (req, res) => {
 //         const updatedUser = await User.findByIdAndDelete(userID, { $addToSet: { rates: movieObject } },
 //             { new: true, runValidators: true, useFindAndModify: true })
 
-//         const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject } , rate : newRate },
+//         const updatedMovie = await Movie.findByIdAndUpdate(movieID, { $addToSet: { users: userObject } , rate : avgNewRate },
 //             { new: true, runValidators: true, useFindAndModify: true })
 
 

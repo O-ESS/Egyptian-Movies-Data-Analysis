@@ -147,49 +147,49 @@ export default function MoviePage() {
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    الملخص: {movieData.Synopsis}
+                    <b>الملخص:</b> {movieData.Synopsis}
                   </Typography>
                   <Typography variant="subtitle2" color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    التقييم:  {Number((movieData.rate).toFixed(2))}
+                    <b> التقييم: </b>  {Number((movieData.rate).toFixed(2))}
                   </Typography>
                   <Typography variant="subtitle2" color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    التصنييف: {movieData.Category}
+                    <b>التصنييف: </b> {movieData.Category}
                   </Typography>
                   <Typography variant="body1" color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    الممثلين:   {movieData.Actors}
+                    <b>الممثلين:</b>   {movieData.Actors}
                   </Typography>
                   <Typography variant='body1' color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    المده: {movieData.Duration}
+                    <b>المدة:</b> {movieData.Duration}
                   </Typography>
                   <Typography variant="body1" color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right"
                   }}>
-                    تاريخ الأصدار:  {movieData.Date}
+                    <b>  تاريخ الأصدار:</b>   {movieData.Date}
                   </Typography>
                   <Typography variant="subtitle2" color="text.secondary" style={{
                     // display: "flex",
                     // justifyContent: "flex-end",
                     textAlign: "right",
                   }}>
-                    البطوله:  {movieData.Leading_actor}
+                    <b> البطولة:</b>  {movieData.Leading_actor}
                   </Typography>
 
                 </CardContent>
