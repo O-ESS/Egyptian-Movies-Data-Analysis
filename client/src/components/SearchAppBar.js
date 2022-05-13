@@ -110,7 +110,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar(props) {
-  const  isLogged = props.isLogged ;
+  const isLogged = props.isLogged;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -134,9 +134,9 @@ export default function SearchAppBar(props) {
 
     <Button key="three" value="كوميدي" >كوميدي</Button>,
     <Button key="twelve" value="كوميدي" >عائلي</Button>,
-    
+
     <Button key="six" value="رومانسي" >رومانسي</Button>,
-    
+
     <Button key="thirteen" value="استعراضي" >استعراضي</Button>,
 
     <Button key="fourteen" value="تاريخي" >تاريخي</Button>,
@@ -157,31 +157,31 @@ export default function SearchAppBar(props) {
 
     <Button key="two" value="رعب" >رعب</Button>
   ];
-  
-  
+
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
-  
-        <ButtonGroup onClick={handleClick} size="large" orientation="vertical" aria-label="large button group">
-          {buttons}
-  
+
+      <ButtonGroup onClick={handleClick} size="large" orientation="vertical" aria-label="large button group">
+        {buttons}
+
       </ButtonGroup>
-  
-  
+
+
     </div>
   );
 
   async function handleClick(e) {
-    
+
     e.preventDefault();
     props.setCategory(e.target.value);
 
     navigate(`filter/${e.target.value}`, { replace: true });
 
 
-  
+
 
 
   }
@@ -191,164 +191,166 @@ export default function SearchAppBar(props) {
     navigate(`/search/${searchText}`);
     window.location.reload();
   }
-console.log(isLogged, props.userName)
-  if (!isLogged){
-  return (
-    <Box style={{zIndex:100}} sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-         
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Egyptian Movies
-          </Typography>
-       
-      <nav className="navbar">
-        <ul>
-        <Button color="inherit" onClick={event =>  window.location.href='/MovieStats'}>Movies statistics</Button>
-          <Button endIcon={ <LoginIcon /> } color="inherit"  className="links" onClick={event =>  window.location.href='/login'}>Login</Button>
-          <Button endIcon={<LockOpenIcon />} color="inherit" className="links" onClick={event =>  window.location.href='/register'}>SignUP</Button>
-          {//<Button endIcon={<SupervisorAccountIcon />} className="links" onClick={event =>  window.location.href='/admin'}>I'm an ADMIN</Button>
-          }
-        </ul>
-      </nav>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <form onSubmit={handleSubmit}>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                value={searchText}
-                onChange={(e) => { setSearchText(e.target.value) }}
+  console.log(isLogged, props.userName)
+  if (!isLogged) {
+    return (
+      <Box style={{ zIndex: 100 }} sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
 
-              />
-            </form>
-          </Search>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        {drawer}
-      </Drawer>
-    </Box>
-  );
-      }
-      else{
-        return(
-        <Box style={{zIndex:100}} sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Egyptian Movies
-          </Typography>
-          
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Hello, {props.userName}
-          </Typography>
-          <Button color="inherit" onClick={event =>  window.location.href='/MovieStats'}>Movies statistics</Button>
-          <MenuItem onClick={event =>  {
-          localStorage.removeItem("username");
-          localStorage.removeItem("user token");
-          localStorage.removeItem("type");
-          window.location.href='/'
-          }}>
-           
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <form onSubmit={handleSubmit}>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                value={searchText}
-                onChange={(e) => { setSearchText(e.target.value) }}
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Egyptian Movies
+            </Typography>
 
-              />
-            </form>
-          </Search>
-        </Toolbar>
-      </AppBar>
-      
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+            <nav className="navbar">
+              <ul>
+                <Button color="inherit" onClick={event => window.location.href = '/MovieStats'}>Movies statistics</Button>
+                <Button endIcon={<LoginIcon />} color="inherit" className="links" onClick={event => window.location.href = '/login'}>Login</Button>
+                <Button endIcon={<LockOpenIcon />} color="inherit" className="links" onClick={event => window.location.href = '/register'}>SignUP</Button>
+                {//<Button endIcon={<SupervisorAccountIcon />} className="links" onClick={event =>  window.location.href='/admin'}>I'm an ADMIN</Button>
+                }
+              </ul>
+            </nav>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <form onSubmit={handleSubmit}>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchText}
+                  onChange={(e) => { setSearchText(e.target.value) }}
+
+                />
+              </form>
+            </Search>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        {drawer}
-      </Drawer>
-    </Box>);
-      }
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          {drawer}
+        </Drawer>
+      </Box>
+    );
+  }
+  else {
+    return (
+      <Box style={{ zIndex: 100 }} sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Egyptian Movies
+            </Typography>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Hello {props.userName}
+            </Typography>
+            <Button color="inherit" onClick={event => window.location.href = '/MovieStats'}>Movies statistics</Button>
+
+            <MenuItem onClick={event => {
+              // localStorage.removeItem("username");
+              // localStorage.removeItem("user token");
+              // localStorage.removeItem("type");
+              localStorage.clear()
+              window.location.href = '/'
+            }}>
+
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <form onSubmit={handleSubmit}>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchText}
+                  onChange={(e) => { setSearchText(e.target.value) }}
+
+                />
+              </form>
+            </Search>
+          </Toolbar>
+        </AppBar>
+
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          {drawer}
+        </Drawer>
+      </Box>);
+  }
 
 }

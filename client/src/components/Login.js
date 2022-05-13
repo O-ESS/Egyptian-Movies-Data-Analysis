@@ -19,7 +19,7 @@ import { Navigate } from 'react-router';
 import { render } from 'react-dom';
 // import FacebookLogin from './FacebookLogin';
 
-         
+
 
 
 
@@ -40,152 +40,153 @@ import { render } from 'react-dom';
 
 const theme = createTheme();
 
- const Login = (props) => {
-  const [username,setUsername] = React.useState("");
-  const [password,setPassword] = React.useState("");
-  const [message , setMessage] = React.useState({isVisible: false , message: "I am here"});
-  const [logged , setLogged ] = React.useState( props.isLogged );
-  const [error , setError] = React.useState(false);
+const Login = (props) => {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [message, setMessage] = React.useState({ isVisible: false, message: "I am here" });
+  const [logged, setLogged] = React.useState(props.isLogged);
+  const [error, setError] = React.useState(false);
   const [finish, setFinish] = React.useState(false);
 
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  if(username == "" || password == "" ){
-    setError(true);}
-  else{
-    const user = {
-      username:   username ,
-      password:   password 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (username == "" || password == "") {
+      setError(true);
     }
-    await axios.post('http://localhost:8080/auth/login' , user)
-    .then(res => {
-      console.log(res.data);
-      if(res.data != null){
-        localStorage.setItem('username', user.username);
-        localStorage.setItem('user token', res.data.token);
-        localStorage.setItem('type', res.data.type);
-        setLogged(true);
-        setUsername(user.userName);
-        setFinish(true);
-        
-        //setMessage( {isVisible: true , message: res.data+ ""} );
+    else {
+      const user = {
+        username: username,
+        password: password
       }
-        
-    }).catch(err => {
-      console.log(err)
-      alert("There is no user with this Username and passowrd");
-  });
-  }
-  console.log(message);
-  if (message.message.valueOf() == "success".valueOf()  ){
-    setMessage( {isVisible: true , message: "success"} );
-    setLogged(true);
-    setFinish(true);
-    console.log(username," login")
-    return(
-      <>
-      <App  isLogged={true} userName={ username }/>
-      <Link href="/auth/login" variant="body2">
-                  Go Back To Home Page
-      </Link>
-</>
-    )
-    
-  }
+      await axios.post('http://localhost:8080/auth/login', user)
+        .then(res => {
+          console.log(res.data);
+          if (res.data != null) {
+            localStorage.setItem('username', user.username);
+            localStorage.setItem('user token', res.data.token);
+            localStorage.setItem('userID', res.data.user._id);
+            setLogged(true);
+            setUsername(user.userName);
+            setFinish(true);
 
-};
-if ( logged == true ) {
-
-  return (
-    window.location.href='/'
-)
-}
-else {
-  return (
-    <>
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-          
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="usename"
-                  autoComplete="email"
-                  error = {error && username == ""}
-                  onChange={ e => { setUsername(e.target.value); setMessage({isVisible:false, message:""});}}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  error = {error && password == ""}
-                  onChange={ e => { setPassword(e.target.value); setMessage({isVisible:false, message:""});}}
-                />
-              </Grid>
-            </Grid>
-            <br />
-            {
-            message.isVisible && <Alert variant="filled" severity="warning"> {message.message} </Alert>
+            //setMessage( {isVisible: true , message: res.data+ ""} );
           }
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+
+        }).catch(err => {
+          console.log(err)
+          alert("There is no user with this Username and passowrd");
+        });
+    }
+    console.log(message);
+    if (message.message.valueOf() == "success".valueOf()) {
+      setMessage({ isVisible: true, message: "success" });
+      setLogged(true);
+      setFinish(true);
+      console.log(username, " login")
+      return (
+        <>
+          <App isLogged={true} userName={username} />
+          <Link href="/auth/login" variant="body2">
+            Go Back To Home Page
+          </Link>
+        </>
+      )
+
+    }
+
+  };
+  if (logged == true) {
+
+    return (
+      window.location.href = '/'
+    )
+  }
+  else {
+    return (
+      <>
+        <ThemeProvider theme={theme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
             >
-              Log In
-            </Button>
-            {/* <FacebookLogin/> */}
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  Don't Have an account? Sign Up !!
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        {/* <Copyright sx={{ mt: 5 }}  /> */}
-      </Container>
-    </ThemeProvider>
-    { finish ?
-      <Navigate
+              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Login
+              </Typography>
+
+              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="usename"
+                      autoComplete="email"
+                      error={error && username == ""}
+                      onChange={e => { setUsername(e.target.value); setMessage({ isVisible: false, message: "" }); }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="new-password"
+                      error={error && password == ""}
+                      onChange={e => { setPassword(e.target.value); setMessage({ isVisible: false, message: "" }); }}
+                    />
+                  </Grid>
+                </Grid>
+                <br />
+                {
+                  message.isVisible && <Alert variant="filled" severity="warning"> {message.message} </Alert>
+                }
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Log In
+                </Button>
+                {/* <FacebookLogin/> */}
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link href="/register" variant="body2">
+                      Don't Have an account? Sign Up !!
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+            {/* <Copyright sx={{ mt: 5 }}  /> */}
+          </Container>
+        </ThemeProvider>
+        {finish ?
+          <Navigate
             to={{
-            pathname: "/",
-            state: { isLogged  : logged, username : username }
-          }}
-        /> : <></>
-      }
+              pathname: "/",
+              state: { isLogged: logged, username: username }
+            }}
+          /> : <></>
+        }
       </>
-  );
-}
+    );
+  }
 
 
 
@@ -194,5 +195,5 @@ else {
 }
 
 
-export default Login ;
+export default Login;
 

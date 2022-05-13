@@ -57,20 +57,40 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/foundRate', auth, async (req, res) => {
+router.get('/foundRate/:movieID/:userID', auth, async (req, res) => {
     try {
-        const userID = req.user.id
-        let found = false;
-        if (token) {
-            foundMovie.users.forEach((movie) => {
-                if (movie.userID == userID) {
-                    found = true
+        // const userID = req.user.id
+        const { movieID, userID } = req.params
+        // let found = false
+        let rate = "jj"
 
+        // console.log(rate)
+
+        const foundUser = await User.findById(userID)
+        const foundMovie = await Movie.findById(movieID)
+
+        if (userID) {
+            console.log("73")
+            foundUser.rates.forEach((element) => {
+                if (element.movieID == movieID) {
+                    // found = true
+                    console.log("here")
+                    rate = element.rate
                 }
             })
         }
-        console.log("🚀 ~ file: index.js ~ line 87 ~ foundMovie.users.forEach ~ found", found)
-        res.json(found)
+
+        // console.log("🚀 ~ file: index.js ~ line 87 ~ foundMovie.users.forEach ~ found", found)
+        console.log("🚀 ~ file: user.js ~ line 83 ~ router.get ~ rate", rate)
+        return res.json(rate)
+    } catch (err) {
+        res.json(err);
+    }
+});
+router.get('/hh', auth, async (req, res) => {
+    try {
+        console.log("ha,amas")
+        return res.json("rate")
     } catch (err) {
         res.json(err);
     }
@@ -156,6 +176,7 @@ router.post('/rate', auth, async (req, res) => {
         res.json(err);
     }
 });
+
 
 
 

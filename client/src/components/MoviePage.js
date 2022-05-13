@@ -27,10 +27,13 @@ export default function MoviePage() {
 
   const [movieData, setMovieData] = useState();
   const [openRate, setOpenRate] = useState(false);
-  const [yourRating, setYourRating] = useState(false);
+  const [yourRating, setYourRating] = useState();
   const [rating, setRating] = useState(0) // initial rating value
   const { movieID } = useParams()
   const token = localStorage.getItem('user token')
+  const userID = localStorage.getItem('userID')
+  console.log("🚀 ~ file: MoviePage.js ~ line 35 ~ MoviePage ~ userID", userID)
+
   const auth = {
     headers: { token }
   }
@@ -42,6 +45,11 @@ export default function MoviePage() {
     axios.post('http://localhost:8080/auth/rate', { movieID, rate }, auth)
       .then((result) => {
         setMovieData(result.data.updatedMovie)
+        setOpenRate(false)
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
+
       }).catch(err => {
         console.log(err)
         alert("you rated this movie before , to re-rate it delete the old rate then re-rate again");
@@ -72,9 +80,9 @@ export default function MoviePage() {
 
   // let yourRating = true
   function yourRatingText() {
-    // console.log(yourRating)
+    console.log(yourRating)
 
-    if (yourRating == true) return "Your Rating : 4/5"
+    if (yourRating) return `Your Rating : ${yourRating} / 5`
     else return ""
   }
 
@@ -83,15 +91,13 @@ export default function MoviePage() {
     axios.get(`http://localhost:8080/${movieID}`)
       .then(res => {
         setMovieData(res.data)
-        // setYourRating(res.data.found)
-        // console.log(yourRating)
-
       })
       .catch(err => console.log(err.response.data))
 
 
-    axios.get(`http://localhost:8080/auth/foundRate`, auth)
+    axios.get(`http://localhost:8080/auth/foundRate/${movieID}/${userID}`, auth)
       .then(res => {
+        console.log(userID)
         setYourRating(res.data)
         console.log(yourRating)
 
@@ -196,13 +202,16 @@ export default function MoviePage() {
                 >
 
 
-                  <Typography variant="subtitle2" color="text.secondary"
-                    style={{
-                      margin: "auto",
-                      fontWeight: "bolder"
-                    }}>
-                    {yourRatingText()}
-                  </Typography>
+                  {
+                    yourRating &&
+                    <Typography variant="subtitle2" color="text.secondary"
+                      style={{
+                        margin: "auto",
+                        fontWeight: "bolder"
+                      }}>
+                      {yourRatingText()}
+                    </Typography>
+                  }
                   <Button size="large"
                     variant="contained"
                     startIcon={<StarRateIcon />}
