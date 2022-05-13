@@ -91,6 +91,7 @@ export default function MoviePage() {
     axios.get(`http://localhost:8080/${movieID}`)
       .then(res => {
         setMovieData(res.data)
+        console.log(movieID)
       })
       .catch(err => console.log(err.response.data))
 
