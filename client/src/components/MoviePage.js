@@ -270,7 +270,10 @@ export default function MoviePage() {
                   display: "block"
                 }}>
                 <StarRating />
-                <Button size="large" variant="contained" style={{ marginTop: 8 }} > Remove Rating </Button>
+
+                {yourRating &&
+                  <Button size="large" variant="contained" style={{ marginTop: 8 }} > Remove Rating </Button>
+                }
               </DialogActions>
 
             </Dialog>
