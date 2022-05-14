@@ -57,6 +57,26 @@ export default function MoviePage() {
 
   }
 
+  const handleRemoveRating = () => {
+
+    // setRating(rate)
+    // console.log("token " + localStorage.getItem('user token'))
+
+    axios.get(`http://localhost:8080/auth/removeRate/${movieID}/${userID}`, auth)
+      .then(res => {
+        // console.log(userID)
+        // setYourRating(res.data)
+        setOpenRate(false)
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
+        console.log(yourRating)
+
+      })
+      .catch(err => console.log(err.response.data))
+
+  }
+
   const handleAlert = () => {
     if (token)
       setOpenRate(true)
@@ -272,7 +292,12 @@ export default function MoviePage() {
                 <StarRating />
 
                 {yourRating &&
-                  <Button size="large" variant="contained" style={{ marginTop: 8 }} > Remove Rating </Button>
+                  <Button size="large"
+                    variant="contained"
+                    style={{ marginTop: 8 }}
+                    onClick={handleRemoveRating}>
+                    Remove Rating
+                  </Button>
                 }
               </DialogActions>
 

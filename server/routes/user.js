@@ -86,7 +86,7 @@ router.get('/foundRate/:movieID/:userID', auth, async (req, res) => {
         res.json(err);
     }
 });
-router.get('/test/:movieID/:userID', auth, async (req, res) => {
+router.get('/removeRate/:movieID/:userID', auth, async (req, res) => {
     try {
         const { movieID, userID } = req.params
 
